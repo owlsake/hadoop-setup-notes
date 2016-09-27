@@ -1,0 +1,187 @@
+Namenode > master > 192.168.1.87
+
+Datanodes >  slave1 > 192.168.1.88
+             slave2 > 192.168.1.89
+             slave3 > 192.168.1.90
+
+Clone Hadoop Single node cluster as master
+
+master Node
+
+          $ sudo gedit /etc/hosts
+
+                      master   192.168.1.87
+                      slave1   192.168.1.88
+                      slave2   192.168.1.89
+                      slave3   192.168.1.90
+
+          $ sudo gedit /etc/hostname
+
+                      master
+
+          $ cd /usr/local/hadoop/etc/hadoop
+
+          $ sudo gedit core-site.xml
+
+                       replace localhost as master
+
+          $ sudo gedit hdfs-site.xml
+
+                       replace value 1 as 3 (represents no of datanode)
+
+          $ sudo gedit yarn-site.xml
+
+                       add the following configuration
+        
+                       <configuration>
+                              <property>
+                                  <name>yarn.resourcemanager.resource-tracker.address</name>
+                                  <value>master:8025</value>
+                       <property>
+                       <property>
+                                  <name>yarn.resourcemanager.scheduler.address</name>
+                                  <value>master:8030</value>
+                       <property>
+                       <property>
+                                  <name>yarn.resourcemanager.address</name>
+                                  <value>master:8050</value>
+                             </property>
+                       </configuration>
+
+          $ sudo gedit yarn-site.xml
+
+                       replace mapreduce.framework.name as mapred.job.tracker
+
+                       replace yarn as master:54311
+
+          $ sudo rm -rf /usr/local/hadoop/hadoop_data (!! important !!)
+
+reboot master node $ sudo shutdown -r now
+
+
+Clone master Node as slave1, slave2, slave3
+
+slave Node (conf should be done on each slavenode)
+
+          $ sudo gedit /etc/hostname
+
+                      slave<nodenumberhere>
+
+          $ sudo mkdir -p /usr/local/hadoop/hadoop_data/hdfs/datanode
+
+          $ sudo chown -R bryan:bryan /usr/local/hadoop
+
+          $ sudo gedit /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+
+                       remove dfs.namenode.name.dir property section
+
+reboot all nodes
+
+master Node
+
+          $ sudo gedit /usr/local/hadoop/etc/hadoop/masters
+
+                       master
+
+          $ sudo gedit /usr/local/hadoop/etc/hadoop/slaves
+
+                       remove localhost and add 
+
+                       slave1
+                       slave2
+                       slave3
+
+          $ sudo gedit /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+
+                       remove dfs.datanode.data.dir property section
+
+          $ sudo mkdir -p /usr/local/hadoop/hadoop_data/hdfs/namenode
+
+          $ sudo chown -R bryan:bryan /usr/local/hadoop
+
+          $ sudo ssh-copy-id -i ~/.ssh/id_dsa.pub bryan@master
+
+          $ sudo ssh-copy-id -i ~/.ssh/id_dsa.pub bryan@slave1
+
+          $ sudo ssh-copy-id -i ~/.ssh/id_dsa.pub bryan@slave2
+
+          $ sudo ssh-copy-id -i ~/.ssh/id_dsa.pub bryan@slave3
+
+          $ sudo ssh master
+
+          $ exit
+
+          $ sudo ssh slave1
+
+          $ exit
+
+          $ sudo ssh slave2
+
+          $ exit
+
+          $ sudo ssh slave3
+
+          $ exit
+
+          $ hadoop namenode -format
+
+          $ start-all.sh
+
+          $ jps (check in all 3 datanodes)
+
+
+http://master:8088/
+http://master:50070/
+http://master:50090/
+
+http://master:50075/
+
+=============================
+
+Adding another Node:
+
+In the slave :
+Clone from salve3 
+change MAC address(change IP address) from network GUI
+setup a static IP
+
+$ sudo gedit /etc/hostname (slave4)
+
+reboot !!
+
+
+
+In the master server:
+
+    $ sudo gedit /etc/hosts
+
+    master   192.168.1.87
+    slave1   192.168.1.88
+    slave2   192.168.1.89
+    slave3   192.168.1.90
+    slave4   192.168.1.91 (<- new)
+
+                      
+    !! copy over hosts file to each nodes !!
+	ssh login from master or in the Clone slave (salve4)
+	
+    master$ sudo ssh-copy-id -i ~/.ssh/id_dsa.pub bryan@slave4
+    master$ ssh salve4
+    slave4$ sudo chown -R bryan:bryan /etc/hosts
+    master$ scp /etc/hosts bryan@slave4:/etc/hosts
+    
+    copy /etc/hosts to the other nodes (salve1-3)
+
+    Add "slave4" in the slaves file
+    
+    master$ sudo gedit /usr/local/hadoop/etc/hadoop/slaves
+    slave4 (new)
+
+
+    slave4$ sudo rm -rf /usr/local/hadoop/hadoop_data (!! important !!)
+    slave4$ sudo mkdir -p /usr/local/hadoop/hadoop_data/hdfs/datanode
+    slave4$ sudo chown -R bryan:bryan /usr/local/hadoop
+          
+          
+                      
+   
