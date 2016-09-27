@@ -182,6 +182,7 @@ In the master server:
     slave4$ sudo mkdir -p /usr/local/hadoop/hadoop_data/hdfs/datanode
     slave4$ sudo chown -R bryan:bryan /usr/local/hadoop
           
-          
+
+reference:  http://chaalpritam.blogspot.com/2015/01/hadoop-260-multi-node-cluster-setup-on.html         
                       
    
