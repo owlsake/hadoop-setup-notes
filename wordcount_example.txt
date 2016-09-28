@@ -1,0 +1,6 @@
+
+
+bryan@master:~/Desktop/wordcount$ hadoop fs -put 12345.txt /input
+
+bryan@master:~/Desktop/wordcount$ hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar wordcount /input/12345.txt output
+

@@ -183,6 +183,19 @@ In the master server:
     slave4$ sudo chown -R bryan:bryan /usr/local/hadoop
           
 
-reference:  http://chaalpritam.blogspot.com/2015/01/hadoop-260-multi-node-cluster-setup-on.html         
+reference:  http://chaalpritam.blogspot.com/2015/01/hadoop-260-multi-node-cluster-setup-on.html    
+
+-------------------------------------------------------------------------------------------------
+
+WordCount Test:
+
+
+
+bryan@master:~/Desktop/wordcount$ hadoop fs -put 12345.txt /input
+
+
+bryan@master:~/Desktop/wordcount$ hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar wordcount /input/12345.txt output
+
+     
                       
-   
+bryan@master:$hadoop fs -ls /user/bryan/output   
