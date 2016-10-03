@@ -1,0 +1,16 @@
+Download a latest stable version of Pig http://www-us.apache.org/dist/pig/
+
+sudo tar -zxvf pig-0.16.0.tar.gz
+
+sudo mv pig-0.16.0 /usr/local/pig
+
+sudo nano ~/.bashrc
+
+export PIG_HOME=/usr/local/flume
+export PIG_CONF_DIR=$PIG_HOME/conf
+export PIG_CLASSPATH=$PIG_CONF_DIR
+export PATH=$PIG_HOME/bin:$PATH
+
+source ~/.bashrc
+
+pig -h

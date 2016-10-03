@@ -99,7 +99,7 @@ $ mkdir -p /usr/local/hadoop/hadoop_data/hdfs/namenode
 
 $ mkdir -p /usr/local/hadoop/hadoop_data/hdfs/datanode
 
-$ sudo chown chaalpritam:chaalpritam -R /usr/local/hadoop
+$ sudo chown bryan:bryan -R /usr/local/hadoop
 
 $ hdfs namenode -format
 
@@ -115,4 +115,4 @@ http://localhost:50090/
 http://localhost:50075/
 
 
-reference: http://chaalpritam.blogspot.com/2015/01/hadoop-260-single-node-cluster-setup-on.html
+reference: http://bryan.blogspot.com/2015/01/hadoop-260-single-node-cluster-setup-on.html
